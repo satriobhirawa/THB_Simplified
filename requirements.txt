@@ -1,0 +1,8 @@
+pipenv shell
+pip install pandas
+pip install dash
+pip install dash_table
+pip install boto3
+pip install plotly
+pip install dash_bootstrap_components
+pip install zappa==0.50.0
