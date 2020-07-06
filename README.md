@@ -14,3 +14,9 @@ NOTE on uploading it into AWS:
 - Remove the # sign (comment in python) at line 111, 112, and 113
 - On app.py at line 25, 26 and 111 it requires secret and access key of THB account (where the database is stored).
 - Remove debug=True at line 270
+
+
+**** UPDATE **** 
+06/07/20
+
+Add secret and access key as os.environ (line 24,25) to your console environment
