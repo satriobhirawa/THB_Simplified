@@ -223,6 +223,8 @@ def update_graphs(rows, derived_virtual_selected_rows):
     if derived_virtual_selected_rows is None:
         derived_virtual_selected_rows = []
     dfft = dft if rows is None else pd.DataFrame(rows)
+    #test
+    dfft = dfft.rename({'meetingCount': 'Meetings', 'participantCount': 'Teilnehmer', 'videoCount': 'Video','listenerCount': 'Zuhörer'}, axis=1)
     dfft.sort_values(by=['date_time'], ascending=True, inplace=True)
     colors = ['#7FDBFF' if i in derived_virtual_selected_rows else '#0074D9'
               for i in range(len(dfft))]
@@ -257,7 +259,9 @@ def update_graphs(rows, derived_virtual_selected_rows):
         # check if column exists - user may have deleted it
         # If `column.deletable=False`, then you don't
         # need to do this check.
-        for column in ["meetingCount", "participantCount", "listenerCount"] if column in dfft
+        #test
+        #for column in ["meetingCount", "participantCount", "listenerCount"] if column in dfft
+        for column in ['Meetings', 'Teilnehmer', 'Video','Zuhörer'] if column in dfft
     ]
 
 
