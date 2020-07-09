@@ -29,6 +29,8 @@ SECRET_KEY = os.environ['SECRET_KEY']
 #SECRET_KEY = config('SECRET_KEY')
 
 ## Read from AWS Dynamodb
+
+#from table bbb_stat
 client = boto3.resource('dynamodb',
                         aws_access_key_id=ACCESS_KEY,
                         aws_secret_access_key=SECRET_KEY,
@@ -38,9 +40,22 @@ response = table.scan()
 item = response['Items']
 
 dft = pd.DataFrame(data=item)
+
+#from table bbb_log
+client1 = boto3.resource('dynamodb',
+                        aws_access_key_id=ACCESS_KEY,
+                        aws_secret_access_key=SECRET_KEY,
+                        region_name='eu-central-1')
+table1 = client1.Table("bbb_log")
+response1 = table1.scan()
+item1 = response1['Items']
+
+dfLog = pd.DataFrame(data=item1)
+
 #########
 
 ## Wrangling data from Dataframe df
+
 dft['date_time'] = pd.to_datetime(dft['date_time'], errors='coerce') + datetime.timedelta(hours=2)
 dft.sort_values(by=['date_time'], ascending=True, inplace=True)
 dft['date_time'] = dft['date_time'].dt.round('15min')
@@ -52,6 +67,28 @@ df = df.set_index('month')
 
 dft['date_time'] = pd.DatetimeIndex(dft['date_time']).strftime("%Y-%m-%d %H:%M %a")
 
+#########
+
+## Wrangling data from Dataframe dfLog
+#preparing for participant count
+t1 = dfLog.groupby(['meetingID'])['participantCount'].transform(max) == dfLog['participantCount']
+groupPartCount = dfLog[t1].copy()
+groupPartCount['participantCount'] = pd.to_numeric(dfLog['participantCount'],errors='coerce')
+
+#preparing for listener count
+t2 = dfLog.groupby(['meetingID'])['listenerCount'].transform(max) == dfLog['listenerCount']
+groupListenerCount = dfLog[t2].copy()
+groupListenerCount['listenerCount'] = pd.to_numeric(dfLog['listenerCount'],errors='coerce')
+
+#preparing for voice participant count
+t3 = dfLog.groupby(['meetingID'])['voiceParticipantCount'].transform(max) == dfLog['voiceParticipantCount']
+groupVoiceParticipantCount = dfLog[t3].copy()
+groupVoiceParticipantCount['voiceParticipantCount'] = pd.to_numeric(dfLog['voiceParticipantCount'],errors='coerce')
+
+#preparing for video count
+t4 = dfLog.groupby(['meetingID'])['videoCount'].transform(max) == dfLog['videoCount']
+groupVideoCount = dfLog[t4].copy()
+groupVideoCount['videoCount'] = pd.to_numeric(dfLog['videoCount'],errors='coerce')
 #########
 
 table_header = {'listenerCount': 'Zuhörer',
@@ -85,7 +122,7 @@ card_content_2 = [
         [
             html.H5("Zuhörer", className="card-title"),
             html.P("", className="card-text", ),
-            df["listenerCount"].sum(),
+            groupListenerCount['listenerCount'].sum(),
         ]
     ),
 ]
@@ -95,7 +132,7 @@ card_content_3 = [
         [
             html.H5("Teilnehmer", className="card-title"),
             html.P("", className="card-text", ),
-            df["participantCount"].sum(),
+            groupPartCount['participantCount'].sum(),
         ]
     ),
 ]
@@ -105,7 +142,7 @@ card_content_4 = [
         [
             html.H5("Video", className="card-title"),
             html.P("", className="card-text", ),
-            df["videoCount"].sum(),
+            groupVideoCount['videoCount'].sum(),
         ]
     ),
 ]
@@ -114,7 +151,7 @@ card_content_5 = [
         [
             html.H5("Sprecher", className="card-title"),
             html.P("", className="card-text", ),
-            df["voiceParticipantCount"].sum(),
+            groupVoiceParticipantCount['voiceParticipantCount'].sum(),
         ]
     ),
 ]
