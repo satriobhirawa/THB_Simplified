@@ -11,4 +11,4 @@ NOTE on virtual environment:
 
 
 NOTE on uploading it into AWS:
-- Remove debug=True at line 270
+- Remove debug=True at the end of the code
