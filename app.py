@@ -112,7 +112,7 @@ card_content_1 = [
         [
             html.H5("Meeting", className="card-title"),
             html.P("", className="card-text", ),
-            df["meetingCount"].sum(),
+            dfLog['createTime'].nunique(),
         ]
     ),
 ]
