@@ -71,22 +71,22 @@ dft['date_time'] = pd.DatetimeIndex(dft['date_time']).strftime("%Y-%m-%d %H:%M %
 
 ## Wrangling data from Dataframe dfLog
 #preparing for participant count
-t1 = dfLog.groupby(['meetingID'])['participantCount'].transform(max) == dfLog['participantCount']
+t1 = dfLog.groupby(['createTime'])['participantCount'].transform(max) == dfLog['participantCount']
 groupPartCount = dfLog[t1].copy()
 groupPartCount['participantCount'] = pd.to_numeric(dfLog['participantCount'],errors='coerce')
 
 #preparing for listener count
-t2 = dfLog.groupby(['meetingID'])['listenerCount'].transform(max) == dfLog['listenerCount']
+t2 = dfLog.groupby(['createTime'])['listenerCount'].transform(max) == dfLog['listenerCount']
 groupListenerCount = dfLog[t2].copy()
 groupListenerCount['listenerCount'] = pd.to_numeric(dfLog['listenerCount'],errors='coerce')
 
 #preparing for voice participant count
-t3 = dfLog.groupby(['meetingID'])['voiceParticipantCount'].transform(max) == dfLog['voiceParticipantCount']
+t3 = dfLog.groupby(['createTime'])['voiceParticipantCount'].transform(max) == dfLog['voiceParticipantCount']
 groupVoiceParticipantCount = dfLog[t3].copy()
 groupVoiceParticipantCount['voiceParticipantCount'] = pd.to_numeric(dfLog['voiceParticipantCount'],errors='coerce')
 
 #preparing for video count
-t4 = dfLog.groupby(['meetingID'])['videoCount'].transform(max) == dfLog['videoCount']
+t4 = dfLog.groupby(['createTime'])['videoCount'].transform(max) == dfLog['videoCount']
 groupVideoCount = dfLog[t4].copy()
 groupVideoCount['videoCount'] = pd.to_numeric(dfLog['videoCount'],errors='coerce')
 #########
