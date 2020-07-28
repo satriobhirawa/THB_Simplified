@@ -112,7 +112,8 @@ card_content_1 = [
         [
             html.H5("Meeting", className="card-title"),
             html.P("", className="card-text", ),
-            dfLog['createTime'].nunique(),
+            df.shape[0]
+            #dfLog['createTime'].nunique(),
         ]
     ),
 ]
