@@ -12,3 +12,7 @@ NOTE on virtual environment:
 
 NOTE on uploading it into AWS:
 - Remove debug=True at the end of the code
+
+
+![app_1](app_example1.jpg)
+![app_2](app_example2.jpg)
