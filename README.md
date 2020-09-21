@@ -14,5 +14,5 @@ NOTE on uploading it into AWS:
 - Remove debug=True at the end of the code
 
 
-![app_1](app_example1.jpg)
-![app_2](app_example2.jpg)
+![app_example1](https://github.com/satriobhirawa/THB_Simplified/blob/master/app_example_1.JPG)
+![app_example2](https://github.com/satriobhirawa/THB_Simplified/blob/master/app_example_2.JPG)
